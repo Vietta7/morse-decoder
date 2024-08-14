@@ -38,9 +38,38 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+    let result = '';
+
+    // 1. Разбиваем строку на блоки по 10 символов
+    for (let i = 0; i < expr.length; i += 10) {
+        let block = expr.slice(i, i + 10);
+
+        // 2. Обработка пробела
+        if (block === '**********') {
+            result += ' ';
+            continue;
+        }
+
+        // 3. Преобразуем полученные блоки в код Морзе
+        let morseCode = '';
+        for (let j = 0; j < 10; j += 2) {
+            let pair = block.slice(j, j + 2);
+
+            if (pair === '10') {
+                morseCode += '.';
+            } else if (pair === '11') {
+                morseCode += '-';
+            }
+        }
+
+        // 4. Преобразуем код Морзе в букву и добавляем к результату
+        let letter = MORSE_TABLE[morseCode];
+        result += letter;
+    }
+
+    return result;
 }
 
 module.exports = {
     decode
-}
+};
